@@ -1,5 +1,26 @@
 """
-Various functions for finding/manipulating silence in AudioSegments
+Silence detection and splitting utilities for pydub AudioSegments.
+
+Public API
+----------
+
+detect_silence(audio_segment, min_silence_len=1000, silence_thresh=-16, seek_step=1)
+    Return a list of [start_ms, end_ms] pairs marking silent ranges.
+
+detect_nonsilent(audio_segment, min_silence_len=1000, silence_thresh=-16, seek_step=1)
+    Inverse of detect_silence — returns non-silent ranges.
+
+split_on_silence(audio_segment, min_silence_len=1000, silence_thresh=-16, keep_silence=100, seek_step=1)
+    Split an audio segment into a list of non-silent sub-segments.
+
+detect_leading_silence(sound, silence_threshold=-50.0, chunk_size=10)
+    Return the number of milliseconds of leading silence at the start
+    of an audio segment.
+
+mask_silence(audio_segment, replacement=None, min_silence_len=1000, silence_thresh=-16)
+    Replace silent ranges with ``replacement`` (defaults to a generated
+    sine tone at A4 / -30 dBFS) without changing the segment's duration.
+    Implemented in-module; not exposed via ``pydub.effects``.
 """
 import itertools
 
